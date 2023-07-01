@@ -1,6 +1,8 @@
 from fastapi import FastAPI, Depends, HTTPException
 from sqlalchemy.orm import Session
-from aircraft import schemas, crud, database
+import crud
+import database
+import schemas
 
 app = FastAPI()
 
@@ -49,12 +51,12 @@ def delete_aircraft(aircraft_id: int, db: Session = Depends(get_db)):
 
 @app.get("/aircraft/", response_model=list[schemas.Aircraft])
 def read_aircrafts(
-    range: float = None,
+    range_r: float = None,
     speed: float = None,
     cabin_size: float = None,
     engine: str = None,
     db: Session = Depends(get_db),
 ):
     return crud.get_aircrafts(
-        db=db, range=range, speed=speed, cabin_size=cabin_size, engine=engine
+        db=db, range=range_r, speed=speed, cabin_size=cabin_size, engine=engine
     )
